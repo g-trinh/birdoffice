@@ -22,6 +22,9 @@ class ReservationFormHandler implements FormHandlerInterface
         $this->dataManager = $dataManager;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function handleRequest(FormInterface $form, Request $request)
     {
         $form->submit($request->request->all());

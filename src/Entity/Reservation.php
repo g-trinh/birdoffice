@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as AppAssert;
 
 /**
  * Class Room
  *
  * @ORM\Entity(repositoryClass="App\Repository\RoomRepository")
+ * @Assert\Callback({"App\Validator\StartAndEndDateRangeConstraintValidator", "validate"})
+ * @Assert\Callback({"App\Validator\RoomCapacityConstraintValidator", "validate"})
  */
 class Reservation
 {
@@ -26,7 +29,6 @@ class Reservation
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="reservations")
      * @ORM\JoinColumn(name="room_id", referencedColumnName="id")
-     * @AppAssert\RoomExistsConstraint()
      */
     private $room;
 
@@ -34,15 +36,17 @@ class Reservation
      * @var \DateTime
      *
      * @ORM\Column(name="arrival_date", type="datetime")
+     * @AppAssert\DateNotPassedConstraint()
      */
-    private $arrivalDate;
+    private $startDate;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="departure_date", type="datetime")
+     * @AppAssert\DateNotPassedConstraint()
      */
-    private $departureDate;
+    private $endDate;
 
     /**
      * @var bool
@@ -92,36 +96,36 @@ class Reservation
     /**
      * @return \DateTime
      */
-    public function getArrivalDate()
+    public function getStartDate()
     {
-        return $this->arrivalDate;
+        return $this->startDate;
     }
 
     /**
-     * @param \DateTime $arrivalDate
+     * @param \DateTime $startDate
      * @return Reservation
      */
-    public function setArrivalDate($arrivalDate)
+    public function setStartDate($startDate)
     {
-        $this->arrivalDate = $arrivalDate;
+        $this->startDate = $startDate;
         return $this;
     }
 
     /**
      * @return \DateTime
      */
-    public function getDepartureDate()
+    public function getEndDate()
     {
-        return $this->departureDate;
+        return $this->endDate;
     }
 
     /**
-     * @param \DateTime $departureDate
+     * @param \DateTime $endDate
      * @return Reservation
      */
-    public function setDepartureDate($departureDate)
+    public function setEndDate($endDate)
     {
-        $this->departureDate = $departureDate;
+        $this->endDate = $endDate;
         return $this;
     }
 

@@ -28,6 +28,13 @@ class Room
     private $number;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="capacity", type="integer")
+     */
+    private $capacity;
+
+    /**
      * @return int
      */
     public function getId()
@@ -56,5 +63,23 @@ class Room
     public function __toString()
     {
         return "Room n°".$this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCapacity()
+    {
+        return $this->capacity;
+    }
+
+    /**
+     * @param int $capacity
+     * @return Room
+     */
+    public function setCapacity($capacity)
+    {
+        $this->capacity = $capacity;
+        return $this;
     }
 }

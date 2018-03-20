@@ -6,7 +6,9 @@ use App\Entity\Room;
 
 class RoomDataManager extends InMemoryAbstractDataManager
 {
-
+    /**
+     * RoomDataManager constructor.
+     */
     public function __construct()
     {
         $roomReflectionClass = new \ReflectionClass(Room::class);

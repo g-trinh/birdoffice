@@ -32,6 +32,9 @@ services:
     App\Controller\ReservationController:
         arguments:
             $normalizer: '@App\Normalizer\ReservationNormalizer'
+
+    App\Controller\ReservationFormController:
+        arguments:
             $handler: '@App\Form\Handler\ReservationFormHandler'
 
     App\Repository\RoomRepository:
@@ -46,6 +49,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Event\Listener\ViolationListResponseListener:
+
+    # Always keep ErrorsResponseListener at a higher priority than ObjectResponseListener
+    App\Event\Listener\ErrorsResponseListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.view, method: onKernelView, priority: 1 }
+            - { name: kernel.event_listener, event: kernel.view, method: onKernelView, priority: 255 }
+
+    App\Event\Listener\ObjectResponseListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.view, method: onKernelView, priority: 200 }

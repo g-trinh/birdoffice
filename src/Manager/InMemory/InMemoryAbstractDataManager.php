@@ -20,9 +20,4 @@ abstract class InMemoryAbstractDataManager implements DataManagerInterface
     {
         $this->data[] = $data;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function supports($data);
 }

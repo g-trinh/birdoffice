@@ -2,7 +2,6 @@
 
 namespace App\Validator;
 
-use App\Entity\Room;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -13,7 +12,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  * Class RoomExistsContraintValidator
  * @package App\Validator
  */
-class RoomExistsConstraintValidator extends ConstraintValidator
+class DateNotPassedConstraintValidator extends ConstraintValidator
 {
     /**
      * Checks if the passed value is valid.
@@ -23,10 +22,11 @@ class RoomExistsConstraintValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        // If $value is not an instance of Room, it is a numeric.
-        if (!$value instanceof Room && ($value < 200 || $value > 299)) {
+        $now = new \DateTime();
+
+        if ($value instanceof \DateTime && $value <= $now) {
             $this->context
-                ->addViolation($constraint->message, ['{{ roomNumber }}' => $value ])
+                ->addViolation($constraint->message, ['{{ date }}' => $value->format('d/m/Y H:i:s') ])
             ;
         }
     }

@@ -3,7 +3,6 @@
 namespace App\Normalizer;
 
 use App\Entity\Reservation;
-use App\Entity\Room;
 use App\Manager\DataManagerInterface;
 use Symfony\Component\Serializer\Exception\BadMethodCallException;
 use Symfony\Component\Serializer\Exception\ExtraAttributesException;
@@ -52,6 +51,10 @@ class ReservationNormalizer implements DenormalizerInterface, DenormalizerAwareI
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
+        if (isset($data['room']) && is_array($data['room']) && isset($data['room']['id'])) {
+            $data['room'] = $this->roomDataManager->findOneBy(['id' => $data['room']['id']]);
+        }
+
         return $this->denormalizer->denormalize($data, $class, $format, $context);
     }
 
