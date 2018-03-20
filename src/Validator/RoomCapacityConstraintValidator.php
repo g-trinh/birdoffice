@@ -3,12 +3,8 @@
 namespace App\Validator;
 
 use App\Entity\Reservation;
-use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-/**
- * @Annotation
- */
 class RoomCapacityConstraintValidator
 {
     /**
@@ -33,8 +29,7 @@ class RoomCapacityConstraintValidator
             return;
         }
 
-        // If $value is not an instance of Room, it is a numeric.
-        if ($object->getRoom()->getCapacity() < $object->getPersonsCount()) {
+        if ($object->getRoom()->getCapacity() <= $object->getPersonsCount()) {
             $context
                 ->addViolation(self::ERROR_MESSAGE, ['{{ roomId }}' => $object->getRoom()->getId(), '{{ roomCapacity }}' => $object->getRoom()->getCapacity() ])
             ;
